@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { Manga } from "mangadex-full-api"; // Import MangaDex API
 
 function MangaOverview() {
+  const navigate = useNavigate();
   const { id } = useParams(); // Extract manga ID from the URL
   const [manga, setManga] = useState(null);
   const [chapters, setChapters] = useState([]); // Store fetched chapters
@@ -63,6 +64,11 @@ function MangaOverview() {
     return `https://uploads.mangadex.org/covers/${id}/${coverArt}`;
   };
 
+  // Back to Homepage
+  const handleBackToHomepage = () => {
+    navigate("/Homepage");
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-900 to-black text-white">
@@ -82,6 +88,16 @@ function MangaOverview() {
   return (
     <div className="bg-gradient-to-b from-gray-800 via-gray-900 to-black text-white min-h-screen">
       <Navbar />
+
+      {/* Back to Homepage Button */}
+      <div className="text-center my-4">
+        <button
+          onClick={handleBackToHomepage}
+          className="bg-BrightOrange text-white px-6 py-3 rounded-xl shadow-md hover:bg-DeepOrange transition-all duration-200 ease-in-out transform hover:scale-105"
+        >
+          Back to Homepage
+        </button>
+      </div>
 
       <div className="manga-overview py-10">
         <h1 className="text-4xl font-extrabold text-center mb-8 text-White drop-shadow-md">
@@ -143,11 +159,15 @@ function MangaOverview() {
             {chapters.map((chapter) => (
               <div
                 key={chapter.id}
-                className="flex-shrink-0 w-40 bg-gray-800 rounded-lg shadow-md p-4"
+                className="flex-shrink-0 w-40 bg-gray-800 rounded-lg shadow-md p-4 cursor-pointer"
+                onClick={() =>
+                  navigate(`/chapter/${chapter.id}`, {
+                    state: { mangaId: id }, // Pass mangaId in the state
+                  })
+                }
               >
                 <p className="text-sm font-semibold text-white mb-2">
-                  {`Chapter ${chapter.chapter || "?"}`}{" "}
-                  {/* Display chapter number */}
+                  {`Chapter ${chapter.chapter || "?"}`}
                 </p>
                 <p className="text-xs text-gray-300">{chapter.title}</p>
                 <p className="text-xs text-gray-300">Vol. {chapter.volume}</p>
