@@ -1,57 +1,109 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const MangaTile = ({
   id,
   title,
-  artist,
-  author,
   description,
+  author,
+  coverArt,
+  genre,
   rating,
-  views,
-  mainCover,
+  contentRating,
 }) => {
-  // Helper function to truncate the description to 50 words
-  const truncateDescription = (text) => {
-    // Check if the input is valid
-    if (typeof text !== "string" || text.trim() === "") {
-      return "";
-    }
+  const [showWarning, setShowWarning] = useState(false); // Track warning modal visibility
 
-    const words = text.split(" ");
-    return words.length > 50 ? words.slice(0, 50).join(" ") + "..." : text;
+  // URL construction for the cover image
+  const coverArtApi = () => {
+    return `https://uploads.mangadex.org/covers/${id}/${coverArt}`;
+  };
+
+  // Function to truncate the title to 4 words and add ellipsis
+  const truncateTitle = (title) => {
+    const words = title.split(" ");
+    if (words.length > 4) {
+      return words.slice(0, 4).join(" ") + "...";
+    }
+    return title;
+  };
+
+  // Check if the content rating requires a blur
+  const isBlurred =
+    contentRating === "erotica" || contentRating === "pornographic";
+
+  // Handle click on a blurred manga
+  const handleBlurredClick = (e) => {
+    if (isBlurred) {
+      e.preventDefault(); // Prevent navigation
+      setShowWarning(true); // Show the warning modal
+    }
+  };
+
+  // Close warning modal
+  const closeWarning = () => {
+    setShowWarning(false);
   };
 
   return (
-    <div className="flex flex-wrap flex--manga">
-      <div className="w-full md:w-full lg:w-1/2 max-w-4xl rounded overflow-hidden shadow-lg m-4 flex justify-between bg-blue-400">
-        <div className="md:flex-shrink-0">
-          <img className="md:w-56" src={mainCover} alt={`${title} cover`} />
-        </div>
-        <div className="flex flex-col flex-grow px-8 py-4 bg-color-333">
-          <h3 className="font-bold text-4xl md:text-2xl lg:text-2xl text-gray-200 manga--title">
-            {title}
+    <div className="manga-tile relative">
+      <div className="relative flex flex-col items-center m-4 bg-DeepBlue text-white rounded-lg shadow-xl w-56 h-80 overflow-hidden group">
+        {/* Manga Cover Image */}
+        <Link
+          to={`/manga/${id}`}
+          onClick={handleBlurredClick}
+          className="block"
+        >
+          <div className="flex justify-center items-center w-full h-full relative">
+            <img
+              src={coverArtApi()}
+              alt={`${title} cover`}
+              className={`object-cover w-full h-full rounded-lg transition-all duration-300 hover:cursor-pointer hover:scale-105 ${
+                isBlurred ? "blur-sm pointer-events-none" : ""
+              }`}
+            />
+            {/* Overlay with "Sign In Required" */}
+            {isBlurred && (
+              <div className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+                <p className="text-lg font-extrabold text-white">
+                  Sign In Required
+                </p>
+              </div>
+            )}
+          </div>
+        </Link>
+
+        {/* Title (shown on hover) */}
+        <div className="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
+          <h3 className="text-lg font-bold text-center text-white">
+            {truncateTitle(title)}
           </h3>
-          <span className="manga--details text-xl lg:text-sm lg:mb-4">
-            Author: {author} | Artist: {artist}
-          </span>
-          <div className="flex-grow">
-            <p className="text-xl md:text-base lg:text-base text-gray-100 leading-snug truncate-overflow">
-              {truncateDescription(description)}
+        </div>
+
+        {/* Rating (Optional) */}
+        {rating && (
+          <div className="absolute top-2 right-2 bg-DeepOrange text-white text-xs rounded-full px-2 py-1">
+            {rating}
+          </div>
+        )}
+      </div>
+
+      {/* Warning Modal */}
+      {showWarning && (
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
+          <div className="bg-white text-black rounded-lg shadow-lg p-6 w-80 text-center">
+            <h2 className="text-xl font-bold mb-4">Sign In Required</h2>
+            <p className="text-base mb-4">
+              You must sign in to view content with this rating.
             </p>
-          </div>
-          <div className="text-sm text-gray-400 mt-2">
-            Rating: {rating} | Views: {views}
-          </div>
-          <div className="button-container flex justify-between mt-4">
-            <button className="text-lg mr-4 lg:text-sm text-gray-200">
-              More Info
-            </button>
-            <button className="text-lg lg:text-sm font-bold py-2 px-4 rounded bg-orange-200 text-orange-700">
-              Add to List
+            <button
+              onClick={closeWarning}
+              className="px-4 py-2 bg-DeepBlue text-white font-semibold rounded hover:bg-opacity-90"
+            >
+              Close
             </button>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
