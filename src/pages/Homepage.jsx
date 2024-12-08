@@ -1,28 +1,48 @@
 import React from "react";
 import Navbar from "../components/Navbar.jsx";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
-
-import overlayImage from "../assets/dragon-ball-appsmsvihvalq341.jpg";
+import MangaTile from "../components/MangaTile.jsx";
+import TopRatedMangas from "../data/TopRatedManga.js";
+import superSaiyan from "../assets/gokuGif.gif";
+import superSaiyanStatic from "../assets/gokuGif.png";
 
 function Homepage() {
+  const popularMangaToDisplay = TopRatedMangas.map((manga) => {
+    const { id, description, rating } = manga;
+    return (
+      <MangaTile
+        key={id}
+        {...manga}
+        description={description.bayesian || description} // Fallback if needed
+        rating={rating.bayesian || rating} // Fallback if needed
+      />
+    );
+  });
+
   return (
     <>
       <Navbar />
-      <div className="relative h-[calc(100vh-4rem)] flex justify-center items-center">
-        {/* Background Image */}
-        <img
-          src={overlayImage}
-          alt="BackgroundImage"
-          className="absolute w-full h-full object-center"
-        />
-
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-Black bg-opacity-60 flex justify-center items-center">
-          <button className="text-4l font-semibold text-White bg-DeepBlue px-3 py-2 rounded hover:bg-BrightBlue">
-            GO TO HOMEPAGE <FontAwesomeIcon icon={faArrowRight} />
-          </button>
+      <div className="bg-LightOrange">
+        <h1 className="text-2xl font-bold text-DeepBlue px-6 pt-4">
+          Top Rated Mangas
+        </h1>
+        <div className="flex items-center px-6">
+          <p className="text-lg italic text-DeepBlue ">
+            Go Super Saiyan after these reads!
+          </p>
+          <div className="group relative w-20 h-20 ">
+            <img
+              src={superSaiyan}
+              alt="Super Saiyan Animated"
+              className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100"
+            />
+            <img
+              src={superSaiyanStatic}
+              alt="Super Saiyan Static"
+              className="absolute inset-0 w-1/2 h-1/2 object-cover group-hover:opacity-0 m-auto"
+            />
+          </div>
         </div>
+        {popularMangaToDisplay}
       </div>
     </>
   );
