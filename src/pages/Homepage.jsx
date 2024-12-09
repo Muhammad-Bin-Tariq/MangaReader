@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import MangaTile from "../components/MangaTile";
 import Navbar from "../components/Navbar";
+import GeminiChat from "../components/GeminiChat";
 import Footer from "../components/Footer";
 import superSaiyan from "../assets/gokuGif.gif";
 import superSaiyanStatic from "../assets/gokuGif.png";
@@ -184,6 +185,7 @@ function Homepage() {
           </>
         )}
       </div>
+      <GeminiChat />
       <Footer />
     </div>
   );

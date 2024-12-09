@@ -1,5 +1,7 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate for navigation
+import { UserContext } from "../context/UserContext"; // Import UserContext
+import axios from "axios";
 
 const MangaTile = ({
   id,
@@ -11,7 +13,11 @@ const MangaTile = ({
   rating,
   contentRating,
 }) => {
+  const { user, setUser } = useContext(UserContext); // Access user context
+  const [isOpen, setIsOpen] = useState(false);
   const [showWarning, setShowWarning] = useState(false); // Track warning modal visibility
+  const [isAdded, setIsAdded] = useState(false); // Track if the manga is added to the library
+  const navigate = useNavigate(); // To navigate to the user dashboard
 
   // URL construction for the cover image
   const coverArtApi = () => {
@@ -29,7 +35,7 @@ const MangaTile = ({
 
   // Check if the content rating requires a blur
   const isBlurred =
-    contentRating === "erotica" || contentRating === "pornographic";
+    (contentRating === "erotica" || contentRating === "pornographic") && !user; // Only blur if user is not logged in
 
   // Handle click on a blurred manga
   const handleBlurredClick = (e) => {
@@ -42,6 +48,38 @@ const MangaTile = ({
   // Close warning modal
   const closeWarning = () => {
     setShowWarning(false);
+  };
+
+  // Add manga to the user's library
+  const handleAddToLibrary = async () => {
+    const hardcodedUserId = "675607fde6762531a6f83a13"; // Hardcoded user ID
+    const hardcodedMangaId = "67542b34500e50534dde2700"; // Hardcoded manga ID
+
+    if (!user) {
+      alert("You must be logged in to add this manga to your library.");
+      return;
+    }
+
+    try {
+      // Use hardcoded user ID and manga ID
+      const response = await axios.post(
+        "http://localhost:3010/api/library/add", // Backend API endpoint
+        {
+          userId: hardcodedUserId, // Hardcoded user ID
+          mangaId: hardcodedMangaId, // Hardcoded manga ID
+        }
+      );
+
+      if (response.data.success) {
+        setIsAdded(true); // Mark as added in the UI
+        alert("Manga added to your library!");
+      } else {
+        alert(response.data.message || "Failed to add manga to library.");
+      }
+    } catch (error) {
+      console.error("Error adding manga to library:", error);
+      alert("Error adding manga to library.");
+    }
   };
 
   return (
@@ -84,6 +122,21 @@ const MangaTile = ({
           <div className="absolute top-2 right-2 bg-DeepOrange text-white text-xs rounded-full px-2 py-1">
             {rating}
           </div>
+        )}
+
+        {/* Add to Library Button */}
+        {user && !isAdded && (
+          <button
+            onClick={handleAddToLibrary}
+            className="absolute top-2 left-2 px-2 py-2 bg-DeepOrange text-white rounded hover:bg-opacity-90"
+          >
+            Add to Library
+          </button>
+        )}
+        {isAdded && (
+          <span className="absolute bottom-2 left-2 px-4 py-2 bg-green-500 text-white rounded">
+            Added to Library
+          </span>
         )}
       </div>
 
