@@ -5,7 +5,7 @@ const baseUrl = "https://api.mangadex.org";
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // MongoDB Connection
-mongoose.connect("mongodb://localhost:27017/Manga");
+mongoose.connect("");
 
 const mangaSchema = new mongoose.Schema({
   id: String,

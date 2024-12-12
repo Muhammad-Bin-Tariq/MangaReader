@@ -2,6 +2,8 @@ import React, { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "../context/UserContext";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const Dashboard = () => {
   const { user } = useContext(UserContext); // Access user context
@@ -24,13 +26,13 @@ const Dashboard = () => {
 
     fetchUserLibrary();
   }, [user.username]);
-
   const coverArtApi = (id, coverArt) => {
     return `https://uploads.mangadex.org/covers/${id}/${coverArt}`;
   };
 
   return (
     <div className="dashboard bg-gradient-to-b from-gray-800 via-gray-900 to-black text-white min-h-screen">
+      <Navbar />
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-4xl font-bold mb-6">{user.username}'s Library</h1>
         <div className="flex flex-wrap -mx-4">
@@ -41,7 +43,7 @@ const Dashboard = () => {
                 onClick={() => navigate(`/manga/${manga.id}`)}
               >
                 <img
-                  src={coverArtApi(manga.id, manga.coverArt)} // Display cover art
+                  src={coverArtApi(manga.id, manga.coverArt)}
                   alt={manga.title}
                   className="object-cover w-full h-64"
                 />
@@ -61,6 +63,7 @@ const Dashboard = () => {
           </p>
         )}
       </div>
+      <Footer />
     </div>
   );
 };

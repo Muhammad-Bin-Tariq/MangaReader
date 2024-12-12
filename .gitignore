@@ -1,5 +1,15 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+#Api details:
+ServiceID:service_n0ecjpa
+TemplateID:template_83e2al2
+UserID:GpmmOCxt3kR73qm3D
+
+GeminiKey:AIzaSyBBn1Hk63KcJoZb8EfPXcrDaklrfVnibnc
+
+MongoDB Connection URL:mongodb+srv://MuhammadBinTariq:MBTFantastic@mangamango.u0jp9.mongodb.net/MangaMango?retryWrites=true &
+w=majority
+
 # dependencies
 /node_modules
 /.pnp

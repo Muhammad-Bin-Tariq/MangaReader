@@ -5,7 +5,7 @@ const GeminiChat = () => {
   const [messages, setMessages] = useState([]);
   const [userMessage, setUserMessage] = useState("");
 
-  const geminiApi = "AIzaSyBBn1Hk63KcJoZb8EfPXcrDaklrfVnibnc";
+  const geminiApi = "";
   const geminiApiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${geminiApi}`;
 
   const toggleChat = () => {

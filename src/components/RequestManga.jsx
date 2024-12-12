@@ -16,10 +16,10 @@ const RequestManga = ({ onClose }) => {
 
     emailjs
       .send(
-        "service_n0ecjpa", // Service ID from EmailJS
-        "template_83e2al2", // Template ID from EmailJS
+        "SERVICE_ID", // Service ID from EmailJS
+        "TEMPLATE_ID", // Template ID from EmailJS
         templateParams,
-        "GpmmOCxt3kR73qm3D" // User ID from EmailJS
+        "USER_ID" // User ID from EmailJS
       )
       .then(
         (response) => {

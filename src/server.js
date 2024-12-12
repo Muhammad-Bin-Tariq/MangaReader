@@ -16,9 +16,7 @@ app.use(express.json());
 
 // Connect to MongoDB
 mongoose
-  .connect(
-    `mongodb+srv://MuhammadBinTariq:MBTFantastic@mangamango.u0jp9.mongodb.net/MangaMango?retryWrites=true&w=majority`
-  )
+  .connect(``)
   .then(() => {
     console.log("MongoDB connected!");
     console.log(
@@ -214,12 +212,54 @@ app.post("/api/library/rate", async (req, res) => {
   }
 });
 
+app.post("/api/library/:username/rate", async (req, res) => {
+  try {
+    const { username } = req.params;
+    const { mangaId, rating, comment } = req.body;
+
+    // Find the user
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    // Find the manga in the user's library
+    const mangaEntry = user.library.find(
+      (entry) => entry.manga.toString() === mangaId
+    );
+
+    if (!mangaEntry) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Manga not found in library" });
+    }
+
+    // Update the rating and comment
+    mangaEntry.rating = rating;
+    mangaEntry.comment = comment;
+
+    // Save the user
+    await user.save();
+
+    res.json({
+      success: true,
+      message: "Rating and comment updated successfully",
+      library: user.library,
+    });
+  } catch (error) {
+    console.error("Error updating rating and comment:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
+
 app.get("/api/library/:username", async (req, res) => {
   try {
     const user = await User.findOne({ username: req.params.username }).populate(
       {
         path: "library.manga", // Populate manga field
-        select: "_id title author cover_art", // Select necessary fields
+        select: "_id id title author coverArt", // Select necessary fields
       }
     );
 

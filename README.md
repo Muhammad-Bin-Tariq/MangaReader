@@ -1,70 +1,67 @@
-# Getting Started with Create React App
+## Project Details
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+-This is a manga reader app developed using mangadexApi.
+-Developed using MERN.
 
-## Available Scripts
+## Implementation Details
 
-In the project directory, you can run:
+-Fetches 400 mangas based on rating and stores in mongoDB
+-Uses the MongoDB database for manga details
+-Calls the MongoDB on localhost:3010
 
-### `npm start`
+## How to Use:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+-git clone to local repository.
+-Execute this command <npm install> in the project folder i.e. manga-e-faiz.
+-execute the /src/data/FetchMangas.js function <node FetchMangas.js>
+-This stores the mangas data in mongoDB. <Line 8: mongoose.connect("");> modify this line according to your string
+-In server.js file give mongoDB connection string. <line 19: mongoose.connect(``)>
+-In /components/GeminiChat.jsx give your geminiApi. <line 8: const geminiApi = "";>
+-In /components/RequestManga.jsx enter your emailjs id. <line 17:>
+-Navigate to /src and execute this command <node server.js>. This connects and runs the database on localhost:3010
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Screenshots
 
-### `npm test`
+## Homepage
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+![Homepage](image.png)
 
-### `npm run build`
+## Scrollable Cards
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+![Scrollable cards](image-1.png)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Chatbot integration
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+![Search with Chatbot](image-2.png)
 
-### `npm run eject`
+## Footer
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+![Footer](image-3.png)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Manga Request via emailjs
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+![MangaRequestSent](image-4.png)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Manga Overview
 
-## Learn More
+![MangaOverview](image-5.png)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Reading panel
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+![Manga ReadingPanel](image-6.png)
 
-### Code Splitting
+## Register
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+![Register](image-7.png)
 
-### Analyzing the Bundle Size
+## Sign In
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+![SignIn](image-8.png)
 
-### Making a Progressive Web App
+## Homepage update after login
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+![Add to Library after login](image-9.png)
 
-### Advanced Configuration
+## Dashboard for user
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+![Dashboard](image-10.png)
